@@ -1,5 +1,6 @@
 # Trading Service
 
+
 The Trading Service is a Go-based application that aggregates real-time trade data from the Binance WebSocket API into 1-minute OHLC (Open, High, Low, Close) candlesticks. It persists the candlesticks in a PostgreSQL database and exposes them via a REST API. The service is designed with an open architecture, making it modular, testable, and extensible.
 
 ## Architecture 
@@ -22,7 +23,7 @@ The project follows an **open architecture** (clean architecture) with the follo
     - `BinanceClient`: Connects to Binance WebSocket streams and sends trades.
     - `GORMStorage`: Persists candlesticks in PostgreSQL using GORM.
 - **Interfaces Layer (`internal/interfaces`)**:
-    - Defines contracts (`Exchange`, `Storage`) for dependency injection, enabling loose coupling.
+    - Defines contracts (`Exchange`, `Storage`) , enabling loose coupling.
 - **Configuration (`config`)**:
     - Loads settings from `config.yaml` and `.env` using `godotenv`.
 - **gRPC Server (`internal/server`)**:
