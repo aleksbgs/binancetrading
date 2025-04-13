@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trading-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trading-service
+  template:
+    metadata:
+      labels:
+        app: trading-service
+    spec:
+      containers:
+        - name: trading-service
+          image: <your-docker-registry>/trading-service:latest
+          ports:
+            - containerPort: 8080   # REST API
+            - containerPort: 50051  # gRPC
+          env:
+            - name: DATABASE_HOST
+              value: "postgres-service"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_USER
+              value: "postgres"
+            - name: DATABASE_PASSWORD
+              value: "postgres"
+            - name: DATABASE_NAME
+              value: "trading"
+            - name: DATABASE_SSLMODE
+              value: "disable"
+            - name: API_PORT
+              value: "8080"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /root/config.yaml
+              subPath: config.yaml
+            - name: cert-volume
+              mountPath: /root/cert
+      volumes:
+        - name: config-volume
+          configMap:
+            name: trading-service-config
+        - name: cert-volume
+          secret:
+            secretName: trading-service-certs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "trading"

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package candlestick;
+
+option go_package = "binancetrading/internal/grpc/proto";
+
+service CandlestickService {
+  // StreamCandlesticks streams candlestick updates for a given symbol
+  rpc StreamCandlesticks(StreamCandlesticksRequest) returns (stream Candlestick);
+}
+
+message StreamCandlesticksRequest {
+  string symbol = 1; // Symbol to stream (e.g., "BTCUSDT")
+}
+
+message Candlestick {
+  string symbol = 1;
+  string open = 2;
+  string high = 3;
+  string low = 4;
+  string close = 5;
+  string volume = 6;
+  string timestamp = 7; // ISO 8601 format
+}

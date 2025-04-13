@@ -1,0 +1,7 @@
+symbols:
+  - BTCUSDT
+  - ETHUSDT
+  - PEPEUSDT
+binance:
+  retry_delay: 1s
+  max_retries: 5
