@@ -6,7 +6,7 @@ The Trading Service is a Go-based application that aggregates real-time trade da
 
 Trading Service works on port 8080.
 Grpc Service for broadcast work on 50051.
-In folder images is project_structure like image
+In folder docs is project_structure like image and how projects works in video folder
 
 The project follows an **open architecture** (clean architecture) with the following layers:
 
